@@ -178,6 +178,8 @@ mod fuzz;
 mod maths;
 #[cfg(feature = "serde")]
 mod serde;
+#[cfg(feature = "juniper")]
+mod juniper;
 
 pub use decimal::{Decimal, RoundingStrategy};
 pub use error::Error;
