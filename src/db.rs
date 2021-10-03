@@ -141,13 +141,7 @@ impl Decimal {
 #[cfg(feature = "diesel")]
 mod diesel {
     use super::*;
-    use ::diesel::{
-        deserialize::{self, FromSql},
-        pg::data_types::PgNumeric,
-        pg::Pg,
-        serialize::{self, Output, ToSql},
-        sql_types::Numeric,
-    };
+    use ::diesel::{deserialize::{self, FromSql}, pg::Pg, pg::{PgValue, data_types::PgNumeric}, serialize::{self, Output, ToSql}, sql_types::Numeric};
     use core::convert::{TryFrom, TryInto};
     use std::io::Write;
 
@@ -217,7 +211,7 @@ mod diesel {
     }
 
     impl FromSql<Numeric, Pg> for Decimal {
-        fn from_sql(numeric: Option<&[u8]>) -> deserialize::Result<Self> {
+        fn from_sql(numeric: PgValue) -> deserialize::Result<Self> {
             PgNumeric::from_sql(numeric)?.try_into()
         }
     }
